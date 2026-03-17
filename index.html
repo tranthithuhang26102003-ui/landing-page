@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phượng Hồng Phát Kiên Giang – Công ty TNHH</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red:    #c0392b;
+      --red2:   #e74c3c;
+      --gold:   #d4a017;
+      --gold2:  #f0c040;
+      --dark:   #1a1a2e;
+      --dark2:  #16213e;
+      --light:  #fdf6ec;
+      --white:  #ffffff;
+      --gray:   #f5f5f5;
+      --text:   #333333;
+      --sub:    #666666;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0,0,0,.12);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.7;
+    }
+
+    /* ── Navbar ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 70px;
+      background: rgba(26,26,46,.95);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 16px rgba(0,0,0,.3);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--red));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .nav-name { color: var(--white); font-weight: 700; font-size: 1rem; line-height: 1.2; }
+    .nav-name span { color: var(--gold2); display: block; font-size: .75rem; font-weight: 400; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,.82); text-decoration: none;
+      font-size: .9rem; font-weight: 500; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--gold2); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      color: var(--white) !important;
+      padding: 8px 20px; border-radius: 30px; font-weight: 600 !important;
+      transition: transform .2s, box-shadow .2s !important;
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(192,57,43,.5) !important; color: var(--white) !important; }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 50%, #0f3460 100%);
+      display: flex; align-items: center;
+      padding: 100px 5% 60px;
+      position: relative; overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 50%, rgba(212,160,23,.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(192,57,43,.1) 0%, transparent 60%);
+    }
+    .hero-content { position: relative; max-width: 580px; }
+    .hero-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: var(--dark); font-weight: 700; font-size: .78rem;
+      padding: 5px 16px; border-radius: 30px; letter-spacing: .5px;
+      margin-bottom: 20px; text-transform: uppercase;
+    }
+    .hero-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; color: var(--white); line-height: 1.15;
+      margin-bottom: 10px;
+    }
+    .hero-title .highlight { color: var(--gold2); }
+    .hero-sub {
+      font-size: 1rem; color: rgba(255,255,255,.65);
+      font-style: italic; margin-bottom: 18px; letter-spacing: .3px;
+    }
+    .hero-desc {
+      font-size: 1.05rem; color: rgba(255,255,255,.8);
+      margin-bottom: 36px; max-width: 480px;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      color: var(--white); text-decoration: none;
+      padding: 14px 32px; border-radius: 30px; font-weight: 700; font-size: 1rem;
+      box-shadow: 0 4px 20px rgba(192,57,43,.4);
+      transition: transform .2s, box-shadow .2s; display: inline-block;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(192,57,43,.5); }
+    .btn-outline {
+      border: 2px solid var(--gold2); color: var(--gold2); text-decoration: none;
+      padding: 12px 30px; border-radius: 30px; font-weight: 700; font-size: 1rem;
+      transition: background .2s, color .2s; display: inline-block;
+    }
+    .btn-outline:hover { background: var(--gold2); color: var(--dark); }
+
+    /* Hero illustration */
+    .hero-visual {
+      position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+      width: clamp(260px, 35%, 440px);
+    }
+    .hero-visual svg { width: 100%; height: auto; filter: drop-shadow(0 20px 40px rgba(0,0,0,.4)); }
+
+    /* ── Stats strip ── */
+    .stats-strip {
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      padding: 30px 5%; display: flex; justify-content: center;
+      gap: clamp(24px, 5%, 80px); flex-wrap: wrap;
+    }
+    .stat { text-align: center; color: var(--white); }
+    .stat-num { font-size: 2rem; font-weight: 800; line-height: 1; }
+    .stat-label { font-size: .85rem; opacity: .88; margin-top: 4px; }
+
+    /* ── Section commons ── */
+    section { padding: 80px 5%; }
+    .section-tag {
+      display: inline-block;
+      background: rgba(192,57,43,.1); color: var(--red);
+      font-size: .78rem; font-weight: 700; letter-spacing: .6px;
+      padding: 4px 14px; border-radius: 20px; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 800; color: var(--dark); line-height: 1.25;
+      margin-bottom: 14px;
+    }
+    .section-title .red { color: var(--red); }
+    .section-desc { color: var(--sub); font-size: 1rem; max-width: 600px; }
+    .center { text-align: center; }
+    .center .section-desc { margin: 0 auto; }
+    .divider {
+      width: 60px; height: 4px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--red), var(--gold));
+      margin: 16px 0 30px;
+    }
+    .center .divider { margin: 16px auto 30px; }
+
+    /* ── About ── */
+    #about { background: var(--light); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .about-img-wrap { position: relative; }
+    .about-img-bg {
+      width: 100%; aspect-ratio: 1/1; max-width: 440px;
+      background: linear-gradient(135deg, var(--red2) 0%, var(--gold) 100%);
+      border-radius: 24px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .about-img-bg svg { width: 75%; height: 75%; }
+    .about-badge-box {
+      position: absolute; bottom: -16px; right: 16px;
+      background: var(--white); border-radius: var(--radius);
+      padding: 14px 20px; box-shadow: var(--shadow);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .about-badge-icon { font-size: 2rem; }
+    .about-badge-text { font-size: .8rem; color: var(--sub); line-height: 1.3; }
+    .about-badge-text strong { display: block; color: var(--dark); font-size: 1rem; }
+    .about-info-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+    .about-info-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: var(--white); border-radius: var(--radius);
+      padding: 14px 18px; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      border-left: 4px solid var(--red);
+    }
+    .info-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+    .info-label { font-size: .75rem; color: var(--sub); text-transform: uppercase; letter-spacing: .4px; }
+    .info-val { font-weight: 600; color: var(--dark); font-size: .95rem; margin-top: 2px; }
+
+    /* ── Products / Services ── */
+    #services { background: var(--white); }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 48px; }
+    .card {
+      background: var(--white); border-radius: 18px;
+      padding: 32px 24px; text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,.07);
+      border: 1px solid #eee;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 12px 36px rgba(0,0,0,.13); }
+    .card-icon {
+      width: 70px; height: 70px; border-radius: 50%; margin: 0 auto 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem;
+    }
+    .card-icon.red   { background: rgba(192,57,43,.1); }
+    .card-icon.gold  { background: rgba(212,160,23,.12); }
+    .card-icon.green { background: rgba(39,174,96,.1); }
+    .card-icon.blue  { background: rgba(41,128,185,.1); }
+    .card h3 { font-size: 1.05rem; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
+    .card p  { font-size: .88rem; color: var(--sub); line-height: 1.6; }
+
+    /* ── Why choose us ── */
+    #why { background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 100%); }
+    #why .section-title { color: var(--white); }
+    #why .section-desc  { color: rgba(255,255,255,.65); }
+    #why .section-tag   { background: rgba(212,160,23,.18); color: var(--gold2); }
+    #why .divider { background: linear-gradient(90deg, var(--gold), var(--red)); }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 48px; }
+    .why-card {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 18px; padding: 28px 24px;
+      transition: background .25s;
+    }
+    .why-card:hover { background: rgba(255,255,255,.11); }
+    .why-icon { font-size: 2.2rem; margin-bottom: 14px; }
+    .why-card h3 { color: var(--white); font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .why-card p  { color: rgba(255,255,255,.62); font-size: .88rem; line-height: 1.6; }
+
+    /* ── Contact ── */
+    #contact { background: var(--light); }
+    .contact-wrap {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; margin-top: 48px;
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 18px; }
+    .contact-card {
+      background: var(--white); border-radius: var(--radius); padding: 20px 22px;
+      display: flex; align-items: center; gap: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      text-decoration: none; color: inherit;
+      transition: transform .2s, box-shadow .2s;
+      border-left: 4px solid var(--red);
+    }
+    .contact-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,.12); }
+    .contact-card-icon {
+      width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: var(--white);
+    }
+    .contact-card-label { font-size: .75rem; color: var(--sub); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 3px; }
+    .contact-card-val { font-weight: 700; color: var(--dark); font-size: .98rem; }
+    /* Map placeholder */
+    .map-box {
+      width: 100%; aspect-ratio: 4/3; border-radius: 18px; overflow: hidden;
+      box-shadow: var(--shadow); background: #e8e8e8;
+      position: relative;
+    }
+    .map-box iframe { width: 100%; height: 100%; border: 0; }
+    /* Contact form */
+    .contact-form { display: flex; flex-direction: column; gap: 14px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: .82rem; font-weight: 600; color: var(--dark); }
+    .form-group input,
+    .form-group textarea {
+      padding: 12px 16px; border-radius: 10px;
+      border: 1.5px solid #ddd; font-size: .93rem; color: var(--text);
+      font-family: inherit; transition: border-color .2s, box-shadow .2s;
+      outline: none; background: var(--white);
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(192,57,43,.12); }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .btn-submit {
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      color: var(--white); border: none; padding: 14px 32px;
+      border-radius: 30px; font-size: 1rem; font-weight: 700; cursor: pointer;
+      transition: transform .2s, box-shadow .2s; align-self: flex-start;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(192,57,43,.45); }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--dark);
+      padding: 50px 5% 28px;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 1.8fr 1fr 1fr; gap: 40px;
+      padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .footer-brand { display: flex; flex-direction: column; gap: 14px; }
+    .footer-logo {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .footer-logo-icon {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--red));
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+    }
+    .footer-logo-text { color: var(--white); font-weight: 700; font-size: .95rem; line-height: 1.3; }
+    .footer-logo-text span { color: var(--gold2); font-size: .75rem; font-weight: 400; display: block; }
+    .footer-about { color: rgba(255,255,255,.55); font-size: .87rem; line-height: 1.7; }
+    .footer-col h4 { color: var(--white); font-size: .9rem; font-weight: 700; margin-bottom: 16px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .footer-links a { color: rgba(255,255,255,.55); text-decoration: none; font-size: .87rem; transition: color .2s; }
+    .footer-links a:hover { color: var(--gold2); }
+    .footer-contact-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-contact-list li { display: flex; align-items: flex-start; gap: 10px; color: rgba(255,255,255,.55); font-size: .87rem; }
+    .footer-contact-list li span:first-child { font-size: 1rem; flex-shrink: 0; }
+    .footer-bottom {
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+      gap: 12px; padding-top: 22px;
+    }
+    .footer-copy { color: rgba(255,255,255,.4); font-size: .8rem; }
+    .footer-tax { color: rgba(255,255,255,.4); font-size: .8rem; }
+
+    /* ── Floating CTA ── */
+    .float-phone {
+      position: fixed; bottom: 28px; right: 28px; z-index: 900;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 1.6rem;
+      box-shadow: 0 4px 20px rgba(39,174,96,.5);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 4px 20px rgba(39,174,96,.5); }
+      50%      { box-shadow: 0 4px 32px rgba(39,174,96,.8), 0 0 0 10px rgba(39,174,96,.15); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hero-visual { display: none; }
+      .about-grid  { grid-template-columns: 1fr; }
+      .contact-wrap { grid-template-columns: 1fr; }
+      .footer-top  { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 60px 6%; }
+      .form-row { grid-template-columns: 1fr; }
+      .stats-strip { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav>
+  <a href="#hero" class="nav-brand">
+    <div class="nav-logo">🌸</div>
+    <div class="nav-name">
+      PHP KIÊN GIANG
+      <span>Phượng Hồng Phát Kiên Giang</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">Giới thiệu</a></li>
+    <li><a href="#services">Sản phẩm</a></li>
+    <li><a href="#why">Tại sao chọn chúng tôi</a></li>
+    <li><a href="#contact" class="nav-cta">Liên hệ ngay</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section id="hero">
+  <div class="hero-content">
+    <span class="hero-badge">🏅 Đang hoạt động · Thành lập 2022</span>
+    <h1 class="hero-title">
+      <span class="highlight">Phượng Hồng Phát</span><br>Kiên Giang
+    </h1>
+    <p class="hero-sub">PHUONG HONG PHAT KIEN GIANG COMPANY LIMITED</p>
+    <p class="hero-desc">
+      Chuyên cung cấp thực phẩm sỉ chất lượng cao – uy tín, tươi ngon, giao hàng nhanh chóng
+      trên toàn khu vực Kiên Giang và các tỉnh lân cận.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">📞 Liên hệ hợp tác</a>
+      <a href="#services" class="btn-outline">Xem sản phẩm</a>
+    </div>
+  </div>
+
+  <!-- Illustration -->
+  <div class="hero-visual">
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#d4a017" stop-opacity=".18"/>
+          <stop offset="100%" stop-color="#d4a017" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="box1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#c0392b"/>
+          <stop offset="100%" stop-color="#e74c3c"/>
+        </linearGradient>
+        <linearGradient id="box2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#d4a017"/>
+          <stop offset="100%" stop-color="#f0c040"/>
+        </linearGradient>
+      </defs>
+      <!-- Glow -->
+      <ellipse cx="200" cy="200" rx="180" ry="180" fill="url(#bg)"/>
+
+      <!-- Pallet / floor -->
+      <rect x="60" y="295" width="280" height="18" rx="6" fill="#b8860b" opacity=".6"/>
+      <rect x="70" y="285" width="260" height="14" rx="4" fill="#d4a017" opacity=".5"/>
+
+      <!-- Stack of boxes -->
+      <!-- Bottom row -->
+      <rect x="75"  y="230" width="100" height="58" rx="8" fill="url(#box1)"/>
+      <rect x="185" y="230" width="100" height="58" rx="8" fill="url(#box2)"/>
+      <line x1="75"  y1="259" x2="175" y2="259" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+      <line x1="125" y1="230" x2="125" y2="288" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+      <line x1="185" y1="259" x2="285" y2="259" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+      <line x1="235" y1="230" x2="235" y2="288" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+
+      <!-- Middle row -->
+      <rect x="100" y="170" width="100" height="58" rx="8" fill="url(#box2)"/>
+      <rect x="205" y="170" width="80"  height="58" rx="8" fill="url(#box1)"/>
+      <line x1="100" y1="199" x2="200" y2="199" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+      <line x1="150" y1="170" x2="150" y2="228" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+
+      <!-- Top box -->
+      <rect x="130" y="110" width="100" height="58" rx="8" fill="url(#box1)"/>
+      <line x1="130" y1="139" x2="230" y2="139" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+      <line x1="180" y1="110" x2="180" y2="168" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+
+      <!-- Checkmark badge -->
+      <circle cx="300" cy="100" r="36" fill="#27ae60"/>
+      <polyline points="283,100 295,113 318,87" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+      <!-- Star decorations -->
+      <text x="50"  y="100" font-size="22" opacity=".5">✨</text>
+      <text x="330" y="230" font-size="18" opacity=".4">⭐</text>
+      <text x="55"  y="180" font-size="14" opacity=".35">⭐</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ══════════════ STATS ══════════════ -->
+<div class="stats-strip">
+  <div class="stat">
+    <div class="stat-num">2022</div>
+    <div class="stat-label">Năm thành lập</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">5 tỷ</div>
+    <div class="stat-label">Vốn điều lệ (VND)</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">2</div>
+    <div class="stat-label">Thành viên sáng lập</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Chất lượng đảm bảo</div>
+  </div>
+</div>
+
+<!-- ══════════════ ABOUT ══════════════ -->
+<section id="about">
+  <div class="about-grid">
+    <!-- Illustration left -->
+    <div class="about-img-wrap">
+      <div class="about-img-bg">
+        <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+          <!-- Warehouse building -->
+          <rect x="40" y="100" width="220" height="150" rx="8" fill="rgba(255,255,255,.22)"/>
+          <polygon points="30,105 150,30 270,105" fill="rgba(255,255,255,.35)"/>
+          <!-- Door -->
+          <rect x="115" y="175" width="70" height="75" rx="5" fill="rgba(0,0,0,.2)"/>
+          <rect x="118" y="178" width="64" height="69" rx="3" fill="rgba(255,255,255,.08)"/>
+          <!-- Windows -->
+          <rect x="58"  y="130" width="48" height="38" rx="4" fill="rgba(255,255,255,.3)"/>
+          <rect x="194" y="130" width="48" height="38" rx="4" fill="rgba(255,255,255,.3)"/>
+          <!-- Boxes in front -->
+          <rect x="50"  y="218" width="44" height="32" rx="4" fill="rgba(255,255,255,.45)"/>
+          <rect x="206" y="218" width="44" height="32" rx="4" fill="rgba(255,255,255,.45)"/>
+          <!-- Truck -->
+          <rect x="70" y="255" width="160" height="35" rx="6" fill="rgba(255,255,255,.5)"/>
+          <circle cx="100" cy="295" r="12" fill="rgba(255,255,255,.7)"/>
+          <circle cx="210" cy="295" r="12" fill="rgba(255,255,255,.7)"/>
+          <rect x="195" y="255" width="50" height="28" rx="4" fill="rgba(255,255,255,.3)"/>
+          <!-- Stars -->
+          <text x="130" y="80" font-size="18" fill="white" opacity=".7" text-anchor="middle">🏭</text>
+        </svg>
+      </div>
+      <div class="about-badge-box">
+        <div class="about-badge-icon">🌸</div>
+        <div class="about-badge-text">
+          <strong>Uy tín – Chất lượng</strong>
+          Đối tác tin cậy của bạn
+        </div>
+      </div>
+    </div>
+
+    <!-- Info right -->
+    <div>
+      <span class="section-tag">Về chúng tôi</span>
+      <h2 class="section-title">Công ty TNHH<br><span class="red">Phượng Hồng Phát Kiên Giang</span></h2>
+      <div class="divider"></div>
+      <p class="section-desc">
+        Được thành lập vào năm 2022, chúng tôi hoạt động trong lĩnh vực bán buôn thực phẩm,
+        cam kết mang đến nguồn hàng chất lượng, giá cả cạnh tranh và dịch vụ chuyên nghiệp
+        đến các đối tác trên toàn khu vực.
+      </p>
+      <ul class="about-info-list">
+        <li>
+          <span class="info-icon">🏢</span>
+          <div>
+            <div class="info-label">Mã số doanh nghiệp</div>
+            <div class="info-val">1702250235</div>
+          </div>
+        </li>
+        <li>
+          <span class="info-icon">📍</span>
+          <div>
+            <div class="info-label">Địa chỉ trụ sở chính</div>
+            <div class="info-val">Tổ 6, ấp Tân Điền, Xã Giục Tượng, Huyện Châu Thành, Tỉnh Kiên Giang</div>
+          </div>
+        </li>
+        <li>
+          <span class="info-icon">👩‍💼</span>
+          <div>
+            <div class="info-label">Người đại diện pháp luật</div>
+            <div class="info-val">TRẦN THỊ BÉ PHƯỢNG – Chủ tịch HĐTV</div>
+          </div>
+        </li>
+        <li>
+          <span class="info-icon">📅</span>
+          <div>
+            <div class="info-label">Ngày đăng ký lần đầu</div>
+            <div class="info-val">11 tháng 03 năm 2022</div>
+          </div>
+        </li>
+        <li>
+          <span class="info-icon">✅</span>
+          <div>
+            <div class="info-label">Tình trạng hoạt động</div>
+            <div class="info-val" style="color:#27ae60;">Đang hoạt động</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ SERVICES / PRODUCTS ══════════════ -->
+<section id="services">
+  <div class="center">
+    <span class="section-tag">Sản phẩm & Dịch vụ</span>
+    <h2 class="section-title">Chúng tôi cung cấp</h2>
+    <div class="divider"></div>
+    <p class="section-desc">
+      Danh mục thực phẩm đa dạng, nguồn gốc rõ ràng, đảm bảo tiêu chuẩn vệ sinh an toàn thực phẩm.
+    </p>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-icon red">🌾</div>
+      <h3>Lương thực – Ngũ cốc</h3>
+      <p>Gạo, nếp, ngô, đậu các loại đạt tiêu chuẩn chất lượng, phù hợp cho kinh doanh bán lẻ và chế biến.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon gold">🥩</div>
+      <h3>Thực phẩm tươi sống</h3>
+      <p>Thịt, cá, hải sản tươi ngon từ các vùng nuôi trồng uy tín, đảm bảo độ tươi khi giao đến tay khách hàng.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon green">🥫</div>
+      <h3>Thực phẩm đóng gói</h3>
+      <p>Mì, bún, phở ăn liền; đồ hộp, gia vị và các mặt hàng khô được đóng gói cẩn thận, bảo quản lâu dài.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon blue">🚚</div>
+      <h3>Giao hàng sỉ toàn khu vực</h3>
+      <p>Vận chuyển nhanh chóng, đúng hạn cho các đại lý, siêu thị, nhà hàng trong tỉnh và các tỉnh lân cận.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ WHY CHOOSE US ══════════════ -->
+<section id="why">
+  <div class="center">
+    <span class="section-tag">Tại sao chọn chúng tôi</span>
+    <h2 class="section-title">Cam kết của Phượng Hồng Phát</h2>
+    <div class="divider"></div>
+    <p class="section-desc">Chúng tôi đặt sự hài lòng của đối tác và chất lượng sản phẩm lên hàng đầu.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">🏆</div>
+      <h3>Uy tín được chứng nhận</h3>
+      <p>Doanh nghiệp được đăng ký hợp pháp, vốn điều lệ 5 tỷ đồng, đảm bảo năng lực tài chính ổn định.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🌿</div>
+      <h3>Nguồn hàng chất lượng</h3>
+      <p>Hàng hóa có nguồn gốc rõ ràng, kiểm soát chất lượng nghiêm ngặt từ nhà cung cấp đến tay khách hàng.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">💰</div>
+      <h3>Giá cả cạnh tranh</h3>
+      <p>Cung cấp mức giá sỉ hấp dẫn, chính sách chiết khấu linh hoạt phù hợp với quy mô từng đối tác.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🤝</div>
+      <h3>Hợp tác lâu dài</h3>
+      <p>Xây dựng quan hệ đối tác bền vững, hỗ trợ tư vấn và giải quyết mọi vấn đề nhanh chóng, tận tâm.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CONTACT ══════════════ -->
+<section id="contact">
+  <div class="center">
+    <span class="section-tag">Liên hệ</span>
+    <h2 class="section-title">Kết nối với chúng tôi</h2>
+    <div class="divider"></div>
+    <p class="section-desc">Hãy liên hệ ngay để được tư vấn và báo giá tốt nhất.</p>
+  </div>
+
+  <div class="contact-wrap">
+    <!-- Left: info cards + map -->
+    <div>
+      <div class="contact-info">
+        <a href="tel:+84923609580" class="contact-card">
+          <div class="contact-card-icon">📞</div>
+          <div>
+            <div class="contact-card-label">Điện thoại</div>
+            <div class="contact-card-val">+84 923 609 580</div>
+          </div>
+        </a>
+        <a href="mailto:tranthithuhang26102003@gmail.com" class="contact-card">
+          <div class="contact-card-icon">✉️</div>
+          <div>
+            <div class="contact-card-label">Email</div>
+            <div class="contact-card-val">tranthithuhang26102003@gmail.com</div>
+          </div>
+        </a>
+        <div class="contact-card">
+          <div class="contact-card-icon">📍</div>
+          <div>
+            <div class="contact-card-label">Địa chỉ</div>
+            <div class="contact-card-val">Tổ 6, ấp Tân Điền, Xã Giục Tượng, Huyện Châu Thành, Tỉnh Kiên Giang</div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon">🕘</div>
+          <div>
+            <div class="contact-card-label">Giờ làm việc</div>
+            <div class="contact-card-val">Thứ 2 – Thứ 7: 7:00 – 17:30</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map embed -->
+      <div class="map-box" style="margin-top: 24px;">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31436.96494906!2d105.0558!3d10.0221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0e0a87c4f4d8f%3A0x1!2sGiuc%20Tuong%2C%20Chau%20Thanh%2C%20Kien%20Giang!5e0!3m2!1svi!2svn!4v1"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          title="Bản đồ vị trí công ty">
+        </iframe>
+      </div>
+    </div>
+
+    <!-- Right: form -->
+    <div>
+      <h3 style="font-size:1.3rem;font-weight:700;color:var(--dark);margin-bottom:20px;">
+        Gửi yêu cầu tư vấn
+      </h3>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Họ và tên *</label>
+            <input type="text" id="name" name="name" placeholder="Nguyễn Văn A" required />
+          </div>
+          <div class="form-group">
+            <label for="phone">Số điện thoại *</label>
+            <input type="tel" id="phone" name="phone" placeholder="0912 345 678" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="example@email.com" />
+        </div>
+        <div class="form-group">
+          <label for="product">Sản phẩm / Dịch vụ quan tâm</label>
+          <input type="text" id="product" name="product" placeholder="VD: Gạo sỉ, Thực phẩm đóng gói..." />
+        </div>
+        <div class="form-group">
+          <label for="message">Nội dung *</label>
+          <textarea id="message" name="message" placeholder="Mô tả nhu cầu của bạn..." required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">📨 Gửi yêu cầu</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <div class="footer-logo-icon">🌸</div>
+        <div class="footer-logo-text">
+          PHƯỢNG HỒNG PHÁT KIÊN GIANG
+          <span>PHP KIEN GIANG CO.,LTD</span>
+        </div>
+      </div>
+      <p class="footer-about">
+        Công ty TNHH Phượng Hồng Phát Kiên Giang – chuyên bán buôn thực phẩm chất lượng cao,
+        đối tác tin cậy cho các đại lý, siêu thị và nhà hàng khu vực Đồng bằng sông Cửu Long.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Liên kết nhanh</h4>
+      <ul class="footer-links">
+        <li><a href="#hero">Trang chủ</a></li>
+        <li><a href="#about">Giới thiệu</a></li>
+        <li><a href="#services">Sản phẩm</a></li>
+        <li><a href="#why">Cam kết</a></li>
+        <li><a href="#contact">Liên hệ</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Thông tin liên hệ</h4>
+      <ul class="footer-contact-list">
+        <li><span>📞</span><span><a href="tel:+84923609580" style="color:inherit;text-decoration:none;">+84 923 609 580</a></span></li>
+        <li><span>✉️</span><span><a href="mailto:tranthithuhang26102003@gmail.com" style="color:inherit;text-decoration:none;">tranthithuhang26102003@gmail.com</a></span></li>
+        <li><span>📍</span><span>Tổ 6, ấp Tân Điền, Xã Giục Tượng, Huyện Châu Thành, Tỉnh Kiên Giang</span></li>
+        <li><span>🆔</span><span>MST: 1702250235</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2024 Công ty TNHH Phượng Hồng Phát Kiên Giang. All rights reserved.</p>
+    <p class="footer-tax">MSDN: 1702250235 – Cấp ngày: 11/03/2022</p>
+  </div>
+</footer>
+
+<!-- ══════════════ FLOAT BUTTON ══════════════ -->
+<a href="tel:+84923609580" class="float-phone" title="Gọi ngay">📞</a>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    btn.textContent = '✅ Đã gửi thành công!';
+    btn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = '📨 Gửi yêu cầu';
+      btn.style.background = '';
+      btn.disabled = false;
+      e.target.reset();
+    }, 3500);
+  }
+
+  // Smooth reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.card, .why-card, .about-info-list li, .contact-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity .5s ease, transform .5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
